@@ -8,4 +8,7 @@ on:
 jobs:
   request-pipeline:
     uses: Ll2223/ga-pipelines/.github/workflows/PipelineRundeck.yml@main
+    with:
+      hml: 'true'
+      hml_1-5: 'false'
     secrets: inherit
