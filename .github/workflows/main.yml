@@ -1,0 +1,11 @@
+name: Request PipelineRundeck
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  request-pipeline:
+    uses: Ll2223/ga-pipelines/.github/workflows/PipelineRundeck.yml@main
+    secrets: inherit
