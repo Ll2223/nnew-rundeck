@@ -16,7 +16,6 @@ jobs:
       AMBIENTE: ${AMBIENTE}
       OWNER: ${OWNER}
       URL: ${URL}
-      CONTAINER: ${CONTAINER}
 
     steps:
       - name: Checkout Repository
