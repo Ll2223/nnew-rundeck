@@ -1,0 +1,25 @@
+- defaultTab: nodes
+  description: ''
+  executionEnabled: true
+  #id: ddee457b-31d8-46be-a018-4ac1fa70c96f
+  loglevel: INFO
+  name: leo
+  nodeFilterEditable: false
+  options:
+  - name: AMBIENTE
+    value: dev
+  - name: INSTANCE_ID
+    value: DEV_INSTANCE_123
+  - name: OWNER
+    value: leo dev
+  - name: URL
+    value: http://dev.smiles.com.br
+  plugins:
+    ExecutionLifecycle: null
+  scheduleEnabled: true
+  sequence:
+    commands:
+    - script: echo "Hello World"
+    keepgoing: false
+    strategy: node-first
+  #uuid: ddee457b-31d8-46be-a018-4ac1fa70c96f
