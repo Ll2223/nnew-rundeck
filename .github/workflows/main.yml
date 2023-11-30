@@ -19,9 +19,9 @@ jobs:
         commit_message=$(git log -1 --pretty=%B)
         echo "Commit Message: $commit_message"
     
-        # Extract values from commit message (ajuste feito aqui)
-        hml=$(echo $commit_message | grep -oP "hml: '\K([^']+)" | sed "s/'//g")
-        hml_1_5=$(echo $commit_message | grep -oP "hml_1-5: '\K([^']+)" | sed "s/'//g")
+        # Extract values from commit message and adjust format
+        hml=$(echo $commit_message | grep -oP "hml: '\K([^']+)")
+        hml_1_5=$(echo $commit_message | grep -oP "hml_1-5: '\K([^']+)")
   
         # Set default values if not provided in commit message
         hml=${hml:-'true'}
@@ -38,8 +38,8 @@ jobs:
     needs: extract-variables
     uses: Ll2223/ga-pipelines/.github/workflows/PipelineRundeck.yml@main
     with:
-      hml: ${{ toJson(needs.extract-variables.outputs.hml) }}
-      hml_1-5: ${{ toJson(needs.extract-variables.outputs.hml_1_5) }}
+      hml: '${{ needs.run-pipeline.outputs.hml }}'
+      hml_1-5: '${{ needs.run-pipeline.outputs.hml_1_5 }}'
     secrets: inherit
 
 
