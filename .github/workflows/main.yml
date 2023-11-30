@@ -13,15 +13,23 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
       
+    jobs:
+  extract-variables:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      
     - name: Set Environment Variables from Commit Message
       id: set-env-vars
       run: |
         commit_message=$(git log -1 --pretty=%B)
         echo "Commit Message: $commit_message"
     
-        # Extract values from commit message (you may need to adjust this based on your actual commit message format)
-        hml=$(echo $commit_message | grep -oP "hml: '(\K[^']+)")
-        hml_1_5=$(echo $commit_message | grep -oP "hml_1-5: '(\K[^']+)")
+        # Extract values from commit message (ajuste feito aqui)
+        hml=$(echo $commit_message | grep -oP "hml: '\K([^']+)" | sed "s/'//g")
+        hml_1_5=$(echo $commit_message | grep -oP "hml_1-5: '\K([^']+)" | sed "s/'//g")
   
         # Set default values if not provided in commit message
         hml=${hml:-'true'}
@@ -30,8 +38,8 @@ jobs:
         echo "hml=$hml"
         echo "hml_1_5=$hml_1_5"
   
-        echo "::set-output name=hml::${hml}"
-        echo "::set-output name=hml_1_5::${hml_1_5}"
+        echo "::set-output name=hml::$hml"
+        echo "::set-output name=hml_1_5::$hml_1_5"
 
 
   run-pipeline:
