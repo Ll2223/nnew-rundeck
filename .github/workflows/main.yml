@@ -27,19 +27,16 @@ jobs:
         hml=${hml:-'true'}
         hml_1_5=${hml_1_5:-'true'}
   
-        echo "hml=$hml"
-        echo "hml_1_5=$hml_1_5"
-  
-        echo "HML_ENV=$hml" >> $GITHUB_ENV
-        echo "HML_1_5_ENV=$hml_1_5" >> $GITHUB_ENV
+        echo "hml='$hml'" >> $GITHUB_ENV
+        echo "hml_1_5='$hml_1_5'" >> $GITHUB_ENV
 
 
   run-pipeline:
     needs: extract-variables
     uses: Ll2223/ga-pipelines/.github/workflows/PipelineRundeck.yml@main
     with:
-        hml: '${{ env.HML_ENV }}'
-        hml_1-5: '${{ env.HML_1_5_ENV }}'
+        hml: ${{ env.HML_ENV }}
+        hml_1-5: ${{ env.HML_1_5_ENV }}
     secrets: inherit
 
 
