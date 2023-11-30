@@ -20,18 +20,19 @@ jobs:
         echo "Commit Message: $commit_message"
     
         # Extract values from commit message (you may need to adjust this based on your actual commit message format)
-        hml=$(echo $commit_message | grep -oP 'hml: \'\K([^\'"]+)')
-        hml_1_5=$(echo $commit_message | grep -oP 'hml_1-5: \'\K([^\'"]+)')
-
+        hml=$(echo $commit_message | grep -oP "hml: '(\K[^']+)")
+        hml_1_5=$(echo $commit_message | grep -oP "hml_1-5: '(\K[^']+)")
+  
         # Set default values if not provided in commit message
         hml=${hml:-'true'}
         hml_1_5=${hml_1_5:-'true'}
-
+  
         echo "hml=$hml"
         echo "hml_1_5=$hml_1_5"
-
+  
         echo "::set-output name=hml::${hml}"
         echo "::set-output name=hml_1_5::${hml_1_5}"
+
 
   run-pipeline:
     needs: extract-variables
