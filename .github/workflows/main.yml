@@ -18,7 +18,7 @@ jobs:
       run: |
         commit_message=$(git log -1 --pretty=%B)
         echo "Commit Message: $commit_message"
-        
+    
         # Extract values from commit message (you may need to adjust this based on your actual commit message format)
         hml=$(echo $commit_message | grep -oP 'hml: \'\K([^\'"]+)')
         hml_1_5=$(echo $commit_message | grep -oP 'hml_1-5: \'\K([^\'"]+)')
