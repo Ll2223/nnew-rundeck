@@ -32,8 +32,8 @@ jobs:
 
     - name: Show Environment Variables
       run: |
-        echo "HML_ENV: ${{ steps.set-env-vars.outputs.hml }}"
-        echo "HML_1_5_ENV: ${{ steps.set-env-vars.outputs.hml_1_5 }}"
+        echo "HML_ENV: ${{ set-env-vars.outputs.hml }}"
+        echo "HML_1_5_ENV: ${{ set-env-vars.outputs.hml_1_5 }}"
 
 
   run-pipeline:
