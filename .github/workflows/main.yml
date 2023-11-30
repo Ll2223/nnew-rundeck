@@ -13,14 +13,6 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
       
-    jobs:
-  extract-variables:
-    runs-on: ubuntu-latest
-    
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-      
     - name: Set Environment Variables from Commit Message
       id: set-env-vars
       run: |
