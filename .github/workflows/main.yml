@@ -27,21 +27,21 @@ jobs:
         hml=${hml:-'true'}
         hml_1_5=${hml_1_5:-'true'}
   
-        echo "HML_ENV='$hml'" >> $GITHUB_ENV
-        echo "HML_1_5_ENV='$hml_1_5'" >> $GITHUB_ENV
+        echo "::set-output name=hml::$hml"
+        echo "::set-output name=hml_1_5::$hml_1_5"
 
     - name: Show Environment Variables
       run: |
-        echo "HML_ENV: $HML_ENV"
-        echo "HML_1_5_ENV: $HML_1_5_ENV"
+        echo "HML_ENV: ${{ steps.set-env-vars.outputs.hml }}"
+        echo "HML_1_5_ENV: ${{ steps.set-env-vars.outputs.hml_1_5 }}"
 
 
   run-pipeline:
     needs: extract-variables
     uses: Ll2223/ga-pipelines/.github/workflows/PipelineRundeck.yml@main
     with:
-        hml: $HML_ENV
-        hml_1-5: $HML_1_5_ENV
+        hml: ${{ needs.extract-variables.outputs.hml }}
+        hml_1-5: ${{ needs.extract-variables.outputs.hml_1_5 }}
     secrets: inherit
 
 
