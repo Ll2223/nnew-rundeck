@@ -30,6 +30,11 @@ jobs:
         echo "HML_ENV='$hml'" >> $GITHUB_ENV
         echo "HML_1_5_ENV='$hml_1_5'" >> $GITHUB_ENV
 
+    - name: Show Environment Variables
+      run: |
+        echo "HML_ENV: $HML_ENV"
+        echo "HML_1_5_ENV: $HML_1_5_ENV"
+
 
   run-pipeline:
     needs: extract-variables
