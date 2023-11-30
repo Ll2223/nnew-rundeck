@@ -1,4 +1,4 @@
-name: Request PipelineRundeck
+name: Run PipelineRundeck
 
 on:
   push:
@@ -6,34 +6,41 @@ on:
       - main
 
 jobs:
-  request-pipeline:
+  extract-variables:
     runs-on: ubuntu-latest
+    
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v2
+      
+    - name: Set Environment Variables from Commit Message
+      id: set-env-vars
+      run: |
+        commit_message=$(git log -1 --pretty=%B)
+        echo "Commit Message: $commit_message"
+        
+        # Extract values from commit message (you may need to adjust this based on your actual commit message format)
+        hml=$(echo $commit_message | grep -oP 'hml: \'\K([^\'"]+)')
+        hml_1_5=$(echo $commit_message | grep -oP 'hml_1-5: \'\K([^\'"]+)')
 
-      - name: Set Environment Variables from Commit Message
-        id: set-env-vars
-        run: |
-          commit_message=$(git log -1 --pretty=%B)
-          echo "Commit Message: $commit_message"
-          
-          # Extract values from commit message (you may need to adjust this based on your actual commit message format)
-          hml=$(echo $commit_message | grep -oP 'hml: \'\K([^\'"]+)')
-          hml_1_5=$(echo $commit_message | grep -oP 'hml_1-5: \'\K([^\'"]+)')
+        # Set default values if not provided in commit message
+        hml=${hml:-'true'}
+        hml_1_5=${hml_1_5:-'true'}
 
-          echo "hml=$hml"
-          echo "hml_1_5=$hml_1_5"
+        echo "hml=$hml"
+        echo "hml_1_5=$hml_1_5"
 
-          echo "::set-output name=hml::${hml}"
-          echo "::set-output name=hml_1_5::${hml_1_5}"
+        echo "::set-output name=hml::${hml}"
+        echo "::set-output name=hml_1_5::${hml_1_5}"
 
-      - name: Run PipelineRundeck
-        uses: Ll2223/ga-pipelines/.github/workflows/PipelineRundeck.yml@main
-        with:
-          hml: ${{ steps.set-env-vars.outputs.hml }}
-          hml_1-5: ${{ steps.set-env-vars.outputs.hml_1_5 }}
-        secrets: inherit
+  run-pipeline:
+    needs: extract-variables
+    uses: Ll2223/ga-pipelines/.github/workflows/PipelineRundeck.yml@main
+    with:
+      hml: ${{ needs.extract-variables.outputs.hml }}
+      hml_1-5: ${{ needs.extract-variables.outputs.hml_1_5 }}
+    secrets: inherit
+
 
 
 # name: Request PipelineRundeck
