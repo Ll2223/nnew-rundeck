@@ -27,8 +27,8 @@ jobs:
         hml=${hml:-'true'}
         hml_1_5=${hml_1_5:-'true'}
   
-        echo "hml='$hml'" >> $GITHUB_ENV
-        echo "hml_1_5='$hml_1_5'" >> $GITHUB_ENV
+        echo "HML_ENV='$hml'" >> $GITHUB_ENV
+        echo "HML_1_5_ENV='$hml_1_5'" >> $GITHUB_ENV
 
 
   run-pipeline:
