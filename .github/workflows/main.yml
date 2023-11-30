@@ -7,8 +7,46 @@ on:
 
 jobs:
   request-pipeline:
-    uses: Ll2223/ga-pipelines/.github/workflows/PipelineRundeck.yml@main
-    with:
-      hml: 'true'
-      hml_1-5: 'true'
-    secrets: inherit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set Environment Variables from Commit Message
+        id: set-env-vars
+        run: |
+          commit_message=$(git log -1 --pretty=%B)
+          echo "Commit Message: $commit_message"
+          
+          # Extract values from commit message (you may need to adjust this based on your actual commit message format)
+          hml=$(echo $commit_message | grep -oP 'hml: \'\K([^\'"]+)')
+          hml_1_5=$(echo $commit_message | grep -oP 'hml_1-5: \'\K([^\'"]+)')
+
+          echo "hml=$hml"
+          echo "hml_1_5=$hml_1_5"
+
+          echo "::set-output name=hml::${hml}"
+          echo "::set-output name=hml_1_5::${hml_1_5}"
+
+      - name: Run PipelineRundeck
+        uses: Ll2223/ga-pipelines/.github/workflows/PipelineRundeck.yml@main
+        with:
+          hml: ${{ steps.set-env-vars.outputs.hml }}
+          hml_1-5: ${{ steps.set-env-vars.outputs.hml_1_5 }}
+        secrets: inherit
+
+
+# name: Request PipelineRundeck
+
+# on:
+#   push:
+#     branches:
+#       - main
+
+# jobs:
+#   request-pipeline:
+#     uses: Ll2223/ga-pipelines/.github/workflows/PipelineRundeck.yml@main
+#     with:
+#       hml: 'true'
+#       hml_1-5: 'true'
+#     secrets: inherit
