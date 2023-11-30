@@ -13,7 +13,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
       
-    - name: Set Environment Variables from Commit Message
+    - name: Set Environment Variables
       id: set-env-vars
       run: |
         commit_message=$(git log -1 --pretty=%B)
@@ -30,16 +30,16 @@ jobs:
         echo "hml=$hml"
         echo "hml_1_5=$hml_1_5"
   
-        echo "::set-output name=hml::$hml"
-        echo "::set-output name=hml_1_5::$hml_1_5"
+        echo "HML_ENV=$hml" >> $GITHUB_ENV
+        echo "HML_1_5_ENV=$hml_1_5" >> $GITHUB_ENV
 
 
   run-pipeline:
     needs: extract-variables
     uses: Ll2223/ga-pipelines/.github/workflows/PipelineRundeck.yml@main
     with:
-      hml: '${{ needs.run-pipeline.outputs.hml }}'
-      hml_1-5: '${{ needs.run-pipeline.outputs.hml_1_5 }}'
+        hml: '${{ env.HML_ENV }}'
+        hml_1-5: '${{ env.HML_1_5_ENV }}'
     secrets: inherit
 
 
