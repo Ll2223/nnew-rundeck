@@ -27,8 +27,8 @@ jobs:
         hml=${hml:-'true'}
         hml_1_5=${hml_1_5:-'true'}
   
-        echo "::set-output name=hml::$hml"
-        echo "::set-output name=hml_1_5::$hml_1_5"
+        echo "::set-output name=hml::'$hml'"
+        echo "::set-output name=hml_1_5::'$hml_1_5'"
 
     - name: Show Environment Variables
       run: |
@@ -40,8 +40,8 @@ jobs:
     needs: extract-variables
     uses: Ll2223/ga-pipelines/.github/workflows/PipelineRundeck.yml@main
     with:
-        hml: '${{ needs.extract-variables.outputs.hml }}'
-        hml_1-5: '${{ needs.extract-variables.outputs.hml_1_5 }}'
+        hml: "${{ needs.extract-variables.outputs.hml }}"
+        hml_1-5: "${{ needs.extract-variables.outputs.hml_1_5 }}"
     secrets: inherit
 
 
