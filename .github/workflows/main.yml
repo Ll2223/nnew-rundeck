@@ -6,45 +6,12 @@ on:
       - main
 
 jobs:
-  extract-variables:
-    runs-on: ubuntu-latest
-    
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-      
-    - name: Set Environment Variables
-      id: set-env-vars
-      run: |
-        commit_message=$(git log -1 --pretty=%B)
-        echo "Commit Message: $commit_message"
-    
-        # Extract values from commit message and adjust format
-        hml=$(echo $commit_message | grep -oP "hml: '\K([^']+)")
-        hml_1_5=$(echo $commit_message | grep -oP "hml_1-5: '\K([^']+)")
-  
-        # Set default values if not provided in commit message
-        hml=${hml:-'true'}
-        hml_1_5=${hml_1_5:-'true'}
-  
-        echo "::set-output name=hml::'$hml'"
-        echo "::set-output name=hml_1_5::'$hml_1_5'"
-
-    - name: Show Environment Variables
-      run: |
-        echo "HML_ENV: ${{ set-env-vars.outputs.hml }}"
-        echo "HML_1_5_ENV: ${{ set-env-vars.outputs.hml_1_5 }}"
-
-
-  run-pipeline:
-    needs: extract-variables
+  request-pipeline:
     uses: Ll2223/ga-pipelines/.github/workflows/PipelineRundeck.yml@main
-    with:  
-      hml: ${{ needs.extract-variables.outputs.set-env-vars.hml }}
-      hml_1-5: ${{ needs.extract-variables.outputs.set-env-vars.hml_1_5 }}
+    with:
+      hml: 'true'
+      hml_1-5: 'true'
     secrets: inherit
-
-
 
 # name: Request PipelineRundeck
 
